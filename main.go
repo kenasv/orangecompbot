@@ -34,8 +34,5 @@ func main() {
 		msg.ReplyToMessageID = update.Message.MessageID
 
 		bot.Send(msg)
-		bot.Send(msg)
-		bot.Send(msg)
-		bot.Send(msg)
 	}
 }
