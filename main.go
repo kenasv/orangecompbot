@@ -36,5 +36,6 @@ func main() {
 		bot.Send(msg)
 		bot.Send(msg)
 		bot.Send(msg)
+		bot.Send(msg)
 	}
 }
