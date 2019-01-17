@@ -1,38 +1,44 @@
 package main
 
 import (
+	"fmt"
 	"log"
 
-	"github.com/go-telegram-bot-api/telegram-bot-api"
+	//"github.com/go-telegram-bot-api/telegram-bot-api"
+	//те что для сервера
+	//"fmt"           // вывод в консоль
+	// библиотека использвания html-шаблонов
+	//"log"           // библиотека по логированию ошибок приложения, журналирования log.Fatal("invalid whole number")
+	"net/http" // библиотека по доступу к сетям
 )
 
 func main() {
-	bot, err := tgbotapi.NewBotAPI("788108993:AAGCEdb9A9F32Z8LaCtcXJWNiCxKZYXrWKg")
-	//от Телеграмма
-
-	if err != nil {
-		log.Panic(err)
+	log.Println("Zapusk")
+	http.HandleFunc("/", homePage) // при адресе / вызов функции HomePage
+	log.Println("Zapusk2")
+	http.HandleFunc("/about", about) // при адресе / вызов функции HomePage
+	log.Println("Zapusk3")
+	if err := http.ListenAndServe(":80", nil); err != nil {
+		// запускаем сервер, который слушает 80 порт. Если сервер не запустился, например занят порт другим предложением, то  выводится ошибка в лог
+		log.Fatal("server ne start. Neobxodim reboot. nil определяет тип сервера", err)
+		// пример того что выводит при включенном  перед запуском сервера IIS на 80 порту :
+		// 2018/09/09 21:19:48 server ne start. Neobxodim reboot. nil определяет тип сервераlisten tcp :80: bind: An attempt was made to access a socket in a way forbidden by its access permissions.
 	}
+	// сервер слушает входной 80 порт, если он закрыт то ошибка в лог
 
-	bot.Debug = true
+}
 
-	log.Printf("Authorized on account %s", bot.Self.UserName)
+// Aghfh
+func homePage(w http.ResponseWriter, r *http.Request) {
 
-	u := tgbotapi.NewUpdate(0)
-	u.Timeout = 60
+	fmt.Fprint(w, "Index Page")
+}
 
-	updates, err := bot.GetUpdatesChan(u)
+/** Public is a public function.
+ *  usage: ...
+ */
+func about(w http.ResponseWriter, r *http.Request) {
 
-	for update := range updates {
-		if update.Message == nil { // ignore any non-Message Updates
-			continue
-		}
+	fmt.Fprint(w, "about.html")
 
-		log.Printf("[%s] %s", update.Message.From.UserName, update.Message.Text)
-
-		msg := tgbotapi.NewMessage(update.Message.Chat.ID, update.Message.Text)
-		msg.ReplyToMessageID = update.Message.MessageID
-
-		bot.Send(msg)
-	}
 }
