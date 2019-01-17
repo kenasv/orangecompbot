@@ -18,7 +18,7 @@ func main() {
 	log.Println("Zapusk2")
 	http.HandleFunc("/about", about) // при адресе / вызов функции HomePage
 	log.Println("Zapusk3")
-	if err := http.ListenAndServe("https://orangecompbot.herokuapp.com:8080", nil); err != nil {
+	if err := http.ListenAndServe("0.0.0.0:8080", nil); err != nil {
 		// запускаем сервер, который слушает 80 порт. Если сервер не запустился, например занят порт другим предложением, то  выводится ошибка в лог
 		log.Fatal("server ne start. Neobxodim reboot. nil определяет тип сервера", err)
 		// пример того что выводит при включенном  перед запуском сервера IIS на 80 порту :
