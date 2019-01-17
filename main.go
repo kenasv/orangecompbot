@@ -7,14 +7,20 @@ import (
 	"os"
 )
 
-func myHandler(w http.ResponseWriter, r *http.Request) {
+func home(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("hi00000ijbvgchfcfgcgfgxgx"))
+}
+
+func about(w http.ResponseWriter, r *http.Request) {
+	w.Write([]byte("about"))
 }
 
 func main() {
 	port := getEnvOrDefault("PORT", "8080")
 	log.Println("Listening on port", port)
-	http.HandleFunc("/", myHandler)
+	http.HandleFunc("/", home)
+	http.HandleFunc("/about", about)
+
 	http.ListenAndServe(":"+port, nil)
 }
 
